@@ -24,8 +24,8 @@ int ledarray [2][6] = {{9, 8, 7, 6, 5, 4},
 bool rot = 0; //Rotation direction; 0=CCW; 1=CW
 long duration, distance1;
 long distance2;
-const char* ssid = "GL-EDU"; //SSID of WiFi router
-const char* password = "gl.edu.123!"; //PASS for router
+const char* ssid = "..."; //SSID of WiFi router
+const char* password = "..."; //PASS for router
 
 Servo servo;
 CRGB leds[NUM_LEDS];

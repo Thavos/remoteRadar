@@ -5,8 +5,6 @@
 #include <ESP8266HTTPClient.h>
 #include <ArduinoJson.h>
 
-#include "localConfig.h"
-
 #define NUM_LEDS 12 //How many leds on the strip?
 #define DATA_PIN 4  //DIN of LED strip - D4
 #define TRIGGER1 D5 // Trigger of main ultrasonic sensor
@@ -24,7 +22,8 @@ int mnumber=0;
 int ledarray [2][6] = {{9, 8, 7, 6, 5, 4},
                        {3, 2, 1, 0, 11, 10}};
 bool rot = 0; //Rotation direction; 0=CCW; 1=CW
-long duration, duration2;
+long duration1;
+long duration2;
 long distance1;
 long distance2;
 
@@ -35,11 +34,11 @@ void setup() {
       Serial.begin(9600);
   //Wifi
        delay(5000);
-      const char* ssid = ""; //SSID of WiFi router
-      const char* password = ""; //PASS for router
+      const char* ssid = "GL"; //SSID of WiFi router
+      const char* password = "gl"; //PASS for router
       WiFi.begin(ssid, password); //Connect to wifi
       while (WiFi.status() != WL_CONNECTED) {
-              delay(500);
+              delay(1000);
               Serial.println("Awaiting connection"); //As long as not connected
       }
       Serial.println("");
@@ -56,14 +55,20 @@ void setup() {
   //Ultrasonic sensor
       pinMode(TRIGGER1, OUTPUT);
       pinMode(ECHO1, INPUT);
+      pinMode(TRIGGER2, OUTPUT);
+      pinMode(ECHO2, INPUT);
 }
 
 void loop(){
   for(int timer = 0; timer<30; timer=timer+5){
     movement();
-    measure();
+    //measured();
+    measure1();
+    measure2();
+    mprint();
     jsonvoid();
     delay(100);
+    Serial.println(WiFi.localIP()); //Print the IP address
   }
   ledvoid();
 }
@@ -84,27 +89,55 @@ void movement(){
        anglemovement = ((angle+25)*150)/180;
    }
     
-  Serial.println(anglemovement);
+  //Serial.println(anglemovement);
     servo.write(anglemovement);       //Servo move by 5°
     angle2 = angle+180;
 }
-void measure(){
-      //Measure the distances
-  digitalWrite(TRIGGER1, LOW);  
+
+void measured(){
   digitalWrite(TRIGGER2, LOW);  
   delayMicroseconds(2);
-  digitalWrite(TRIGGER1, HIGH);
   digitalWrite(TRIGGER2, HIGH);
   delayMicroseconds(10); 
-  digitalWrite(TRIGGER1, LOW);
   digitalWrite(TRIGGER2, LOW);
-  
-      //Change the distances to milimeters
-  duration = pulseIn(ECHO1, HIGH);
-  distance1 = (duration/2) / 2.91;
   duration2 = pulseIn(ECHO2, HIGH);
+  distance2 = (duration2/2) / 29.1;
+  digitalWrite(TRIGGER2, LOW);  
+  delayMicroseconds(2);
+  delay(150);
+}
+
+void measure1(){
+      //Measure the distances
+  digitalWrite(TRIGGER1, LOW);  
+  delayMicroseconds(2);
+  digitalWrite(TRIGGER1, HIGH);
+  delayMicroseconds(10); 
+  digitalWrite(TRIGGER1, LOW);
+  duration1 = pulseIn(ECHO1, HIGH);
+  digitalWrite(TRIGGER1, LOW);  
+  delayMicroseconds(2);
+      //Change the distances to milimeters
+  distance1 = (duration1/2) / 2.91;
+  delay(150);
+}
+
+void measure2(){
+      //Measure the distances
+  digitalWrite(TRIGGER2, LOW);  
+  delayMicroseconds(2);
+  digitalWrite(TRIGGER2, HIGH);
+  delayMicroseconds(10); 
+  digitalWrite(TRIGGER2, LOW);
+  duration2 = pulseIn(ECHO2, HIGH);
+  digitalWrite(TRIGGER2, LOW);  
+  delayMicroseconds(2);
+      //Change the distances to milimeters
   distance2 = (duration2/2) / 2.91;
-  
+  delay(150);
+}
+
+void mprint(){
       //convert to milimetres
   Serial.print("The distance at ");
   Serial.print(angle);
@@ -135,7 +168,7 @@ void ledvoid(){
   leds[ledarray[1][ledid]].r = 255-greenval2;
   FastLED.show();
   delay(100);
-  Serial.println(ledid);
+  //Serial.println(ledid);
 }
 
 void jsonvoid(){
@@ -160,8 +193,8 @@ void jsonvoid(){
   int httpCode = http.POST(JSONmessageBuffer); //Send the request
   String payload = http.getString(); //Get the response payload
 
-  Serial.println(httpCode); //Print HTTP return code
+  /*Serial.println(httpCode); //Print HTTP return code
   Serial.println(payload); //Print request response payload
-  Serial.println(JSONmessageBuffer);
+  Serial.println(JSONmessageBuffer);*/
   http.end(); //Close connection
 }

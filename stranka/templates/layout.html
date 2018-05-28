@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+	<link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+	<link rel="shortcut icon" href="{{url_for('static',filename='favicon.ico')}}" type="image/gif">
+	<link rel="icon" href="{{url_for('static',filename='favicon.ico')}}" type="image/gif">
+	<meta charset="utf-8">
+	<title>flask</title>
+</head>
+<body>
+		<div class="navbar">
+			<ul>
+				<li class="nav"><a href="index">About</a></li>
+				<li class="nav"><a href="problems">Problems</a></li>
+				<li class="nav"><a href="contact">Contact</a></li>
+			</ul>
+		</div>
+		</body>
+		{% block content %}
+		{% endblock %}
+
+</html>

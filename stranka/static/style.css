@@ -1,0 +1,69 @@
+body {
+	font-family: 'Fira Sans', sans-serif;
+	background-color: #efefef;
+}
+
+main {
+	margin-left: 200px;
+	width: 865px;
+}
+
+h1 {
+	text-align: center;
+	font-size: 55px;
+	font-family: "Verdana", san-serif;
+}
+.navbar {
+	padding-top: 3px;
+	padding-bottom: 3px;
+	width: 100%;
+	margin-left: 0px;
+	background-color: black;
+}
+.nav {
+	display: inline-block;
+
+}
+a {
+    margin-right: 14px;
+    font-size: 28px;
+	text-decoration: none;
+	color: #efefef;
+	background-color: black;
+	font-family: 'Fira Sans', sans-serif;
+	text-transform: uppercase;
+	padding: 18px;
+}
+a:hover {
+	background-color: #efefef;
+	color: black;
+	padding: 20px;
+}
+p {
+	font-family: 'Ubuntu', sans-serif;
+}
+h2 {
+	font-family: 'Ubuntu', sans-serif;
+}
+#myChart {
+    height: 800px;
+    width: 100%;
+    position: relative;
+    bottom: 200px;
+    z-index: -1;
+}
+.info {
+	width: 200px;
+	height: 200px;
+	float: left;
+	font-size: 1.5em;
+}
+.info2 {
+	width: 200px;
+	height: 200px;
+	float: right;
+	font-size: 1.5em;
+}
+img {
+	margin-top: 5px;
+}

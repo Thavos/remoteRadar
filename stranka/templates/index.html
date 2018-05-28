@@ -1,0 +1,70 @@
+	{% extends "layout.html" %}
+	{% block content %}
+	<head>
+		  <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+		  <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+  <script>
+    zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
+    ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "ee6b7db5b51705a13dc2339db3edaf6d"];
+  </script>
+   <script>
+    zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
+    ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "ee6b7db5b51705a13dc2339db3edaf6d"];
+  </script>
+	</head>
+	<body>
+	<main>
+		<h1>RADAR</h1>
+		<h2>About</h2>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi nisi temporibus laudantium soluta, odio tempora impedit asperiores eum! Perferendis odit mollitia qui blanditiis perspiciatis enim veritatis saepe eveniet officia eaque.</p>
+		<div class="info">
+			<img src="../static/distance.png" alt="distance" width="20%" height="20%"> : 100mm;
+			<br>
+			<img src="../static/angle.png" alt="angle" width="20%" height="20%"> : 90°;
+		</div>
+		<div class="info2">
+			<img src="../static/distance.png" alt="distance" width="20%" height="20%"> : 100mm;
+			<br>
+			<img src="../static/angle.png" alt="angle" width="20%" height="20%"> : 90°;
+		</div>
+		</main>
+		<div id='myChart'></div>
+  <script>
+    var myConfig = {
+
+
+
+
+
+      "type": "radar",
+      "background-color": "#efefef",
+      "plot": {
+        "aspect": "rose",
+        "stacked": true
+      },
+
+      "scale-v": {
+
+		"values": "0:150:50"
+      },
+      "series": [{
+      	"values": [0,0,0,125,0,0,0,0,0,0,0,0],
+        "palette":1
+      },{
+        "values": [0,0,0,15,0,0,0,0,0,0,0,0],
+        "palette": 3
+      },{
+        "values": [0,0,0,10,0,0,0,0,0,0,0,0],
+        "palette": 2
+      }]
+    };
+    zingchart.render({
+      id: 'myChart',
+      data: myConfig,
+      height: '100%',
+      width: '100%',
+    });
+  </script>
+		</body>
+</html>
+	{% endblock content %}

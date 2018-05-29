@@ -67,3 +67,32 @@ h2 {
 img {
 	margin-top: 5px;
 }
+ button {
+	background: black;
+	text-align: center;
+	font-size: 18px;
+	width: 120px;
+    height: 50px;
+	border-radius: 10px;
+	font-family: 'Fira Sans', sans-serif;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	border-color: #222831;
+	color: #efefef;
+	cursor: pointer;
+	float: right;
+	margin-top: -350px;
+ 	margin-right: 150px;
+ }
+  button:hover {
+ 	background-color:#efefef;
+ 	color: black;
+ }
+ .btn {
+ 	padding: 0px;
+ 	font-size: 18px;
+ 	margin: 0px;
+ }
+ .btn:hover {
+ 	padding: 0px;
+ }

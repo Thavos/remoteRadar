@@ -1,18 +1,18 @@
-	{% extends "layout.html" %}
+{% extends "layout.html" %}
 	{% block content %}
-	<head>
-		  <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
-		  <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+  <head>
+		<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+		<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
   <script>
     zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
     ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "ee6b7db5b51705a13dc2339db3edaf6d"];
   </script>
-   <script>
+  <script>
     zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
     ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "ee6b7db5b51705a13dc2339db3edaf6d"];
   </script>
 	</head>
-	<body>
+<body>
 	<main>
 		<h1>RADAR</h1>
 		<h2>About</h2>
@@ -27,14 +27,10 @@
 			<br>
 			<img src="../static/angle.png" alt="angle" width="20%" height="20%"> : 90°;
 		</div>
-		</main>
+	</main>
 		<div id='myChart'></div>
-  <script>
-    var myConfig = {
-
-
-
-
+    <script>
+      var myConfig = {
 
       "type": "radar",
       "background-color": "#efefef",
@@ -48,13 +44,10 @@
 		"values": "0:150:50"
       },
       "series": [{
-      	"values": [0,0,0,125,0,0,0,0,0,0,0,0],
+      	"values": [0,150,150,125,150,150,150,150,150,150,150,0],
         "palette":1
       },{
-        "values": [0,0,0,15,0,0,0,0,0,0,0,0],
-        "palette": 3
-      },{
-        "values": [0,0,0,10,0,0,0,0,0,0,0,0],
+        "values": [50,0,0,10,0,0,0,0,0,0,0,0],
         "palette": 2
       }]
     };
@@ -65,6 +58,10 @@
       width: '100%',
     });
   </script>
-		</body>
-</html>
+  <a class="btn" href="index">
+    <button>
+      REFRESH
+    </button>
+  </a>
+</body>
 	{% endblock content %}

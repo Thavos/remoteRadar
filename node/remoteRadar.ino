@@ -5,8 +5,6 @@
 #include <ESP8266HTTPClient.h>
 #include <ArduinoJson.h>
 
-#include "localConfig.h"
-
 #define NUM_LEDS 12 //How many leds on the strip?
 #define DATA_PIN 4  //DIN of LED strip - D4
 #define TRIGGER1 D5 // Trigger of main ultrasonic sensor
@@ -20,11 +18,12 @@ int angle2; //Opposite angle (of second sensor)
 int anglemovement=0;
 int ledid;
 int dist1, dist2;
-int mnumber=0;
+int mnumber;
 int ledarray [2][6] = {{9, 8, 7, 6, 5, 4},
                        {3, 2, 1, 0, 11, 10}};
 bool rot = 0; //Rotation direction; 0=CCW; 1=CW
-long duration, duration2;
+long duration1;
+long duration2;
 long distance1;
 long distance2;
 
@@ -56,20 +55,27 @@ void setup() {
   //Ultrasonic sensor
       pinMode(TRIGGER1, OUTPUT);
       pinMode(ECHO1, INPUT);
+      pinMode(TRIGGER2, OUTPUT);
+      pinMode(ECHO2, INPUT);
 }
 
 void loop(){
   for(int timer = 0; timer<30; timer=timer+5){
     movement();
-    measure();
+    //measured();
+    measure1();
+    measure2();
+    mprint();
     jsonvoid();
-    delay(100);
+    delay(500);
+    //Serial.println(WiFi.localIP()); //Print the IP address
+    //Serial.println();
   }
   ledvoid();
 }
 
 void movement(){
-   if(angle>179){
+   if(angle>174){
         rot=0;
    }
    else if(angle<1){
@@ -84,27 +90,55 @@ void movement(){
        anglemovement = ((angle+25)*150)/180;
    }
     
-  Serial.println(anglemovement);
+  //Serial.println(anglemovement);
     servo.write(anglemovement);       //Servo move by 5°
     angle2 = angle+180;
 }
-void measure(){
-      //Measure the distances
-  digitalWrite(TRIGGER1, LOW);  
+
+void measured(){
   digitalWrite(TRIGGER2, LOW);  
   delayMicroseconds(2);
-  digitalWrite(TRIGGER1, HIGH);
   digitalWrite(TRIGGER2, HIGH);
   delayMicroseconds(10); 
-  digitalWrite(TRIGGER1, LOW);
   digitalWrite(TRIGGER2, LOW);
-  
-      //Change the distances to milimeters
-  duration = pulseIn(ECHO1, HIGH);
-  distance1 = (duration/2) / 2.91;
   duration2 = pulseIn(ECHO2, HIGH);
+  distance2 = (duration2/2) / 29.1;
+  digitalWrite(TRIGGER2, LOW);  
+  delayMicroseconds(2);
+  delay(150);
+}
+
+void measure1(){
+      //Measure the distances
+  digitalWrite(TRIGGER1, LOW);  
+  delayMicroseconds(2);
+  digitalWrite(TRIGGER1, HIGH);
+  delayMicroseconds(10); 
+  digitalWrite(TRIGGER1, LOW);
+  duration1 = pulseIn(ECHO1, HIGH);
+  digitalWrite(TRIGGER1, LOW);  
+  delayMicroseconds(2);
+      //Change the distances to milimeters
+  distance1 = (duration1/2) / 2.91;
+  delay(150);
+}
+
+void measure2(){
+      //Measure the distances
+  digitalWrite(TRIGGER2, LOW);  
+  delayMicroseconds(2);
+  digitalWrite(TRIGGER2, HIGH);
+  delayMicroseconds(10); 
+  digitalWrite(TRIGGER2, LOW);
+  duration2 = pulseIn(ECHO2, HIGH);
+  digitalWrite(TRIGGER2, LOW);  
+  delayMicroseconds(2);
+      //Change the distances to milimeters
   distance2 = (duration2/2) / 2.91;
-  
+  delay(150);
+}
+
+void mprint(){
       //convert to milimetres
   Serial.print("The distance at ");
   Serial.print(angle);
@@ -135,33 +169,39 @@ void ledvoid(){
   leds[ledarray[1][ledid]].r = 255-greenval2;
   FastLED.show();
   delay(100);
-  Serial.println(ledid);
+  //Serial.println(ledid);
 }
 
 void jsonvoid(){
   StaticJsonBuffer<300> JSONbuffer;
-  mnumber++;
+  /*if(mnumber==37)
+        {mnumber=1;}*/
+  mnumber = angle/5;
+/*  if (angle = 180)
+      {mnumber = 1;}*/
+  mnumber = mnumber+1;
   JsonObject& JSONencoder = JSONbuffer.createObject();
-  JSONencoder["id"] = "1";
-  JSONencoder["messagenumber"] = mnumber;
-  JSONencoder["frontangle"] = angle;
-  JSONencoder["frontdistance"] = distance1;
-  JSONencoder["backangle"] = angle2;
-  JSONencoder["backdistance"] = distance2;
+  JSONencoder["id"] = mnumber;
+  //JSONencoder["angleFront"] = angle;
+  JSONencoder["distanceFront"] = distance1;
+  //JSONencoder["angleBack"] = angle2;
+  JSONencoder["distanceBack"] = distance2;
   char JSONmessageBuffer[300];
 
   JSONencoder.prettyPrintTo(JSONmessageBuffer, sizeof(JSONmessageBuffer));
   
   HTTPClient http; //Declare object of class HTTPClient
   
-  http.begin("http://172.17.116.241:8888/api/v1"); //Specify request destination
+  http.begin("http://192.168.10.59:8080/arduino/data"); //Specify request destination
   http.addHeader("Content-Type", "application/json"); //Specify content-type header
 
   int httpCode = http.POST(JSONmessageBuffer); //Send the request
   String payload = http.getString(); //Get the response payload
 
-  Serial.println(httpCode); //Print HTTP return code
-  Serial.println(payload); //Print request response payload
+  /*Serial.println(httpCode); //Print HTTP return code
+  Serial.println(payload); //Print request response payload*/
   Serial.println(JSONmessageBuffer);
   http.end(); //Close connection
+  //mnumber++;
 }
+

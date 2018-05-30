@@ -1,0 +1,62 @@
+<body>
+	<main>
+		<h1>RADAR</h1>
+		<h2>About</h2>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi nisi temporibus laudantium soluta, odio tempora impedit asperiores eum! Perferendis odit mollitia qui blanditiis perspiciatis enim veritatis saepe eveniet officia eaque.</p>
+		<div class="info">
+			<img src="../static/distance.png" alt="distance" width="20%" height="20%"> : 100mm;
+			<br>
+			<img src="../static/angle.png" alt="angle" width="20%" height="20%"> : 90°;
+		</div>
+		<div class="info2">
+			<img src="../static/distance.png" alt="distance" width="20%" height="20%"> : 100mm;
+			<br>
+			<img src="../static/angle.png" alt="angle" width="20%" height="20%"> : 90°;
+		</div>
+	</main>
+		<div class="chartdiv"><div id='myChart'><style scoped>
+html{box-sizing:border-box}*,*:before,*:after{box-sizing:inherit}
+html{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}
+article,aside,details,figcaption,figure,footer,header,main,menu,nav,section,summary{display:block}
+a{background-color:transparent;-webkit-text-decoration-skip:objects}
+a:active,a:hover{outline-width:0}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}
+small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sub{bottom:-0.25em}sup{top:-0.5em}figure{margin:1em 40px}img{border-style:none}svg:not(:root){overflow:hidden}
+code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}hr{box-sizing:content-box;height:0;overflow:visible}
+button,input,select,textarea{font:inherit;margin:0}optgroup{font-weight:bold}
+button,input{overflow:visible}button,select{text-transform:none}
+button,html [type=button],[type=reset],[type=submit]{-webkit-appearance:button}
+button::-moz-focus-inner, [type=button]::-moz-focus-inner, [type=reset]::-moz-focus-inner, [type=submit]::-moz-focus-inner{border-style:none;padding:0}
+button:-moz-focusring, [type=button]:-moz-focusring, [type=reset]:-moz-focusring, [type=submit]:-moz-focusring{outline:1px dotted ButtonText} 2
+</style></div></div>
+    <script>
+      var myConfig = {
+      "type": "radar",
+      "plot": {
+        "aspect": "rose",
+        "stacked": true
+      },
+      "scale-v": {
+        "background-color":"red",
+		"values": "0:1000:100"
+      },
+      "series": [{
+      	"values": [0,150,150,150,150,150,150,150,150,150,0],
+        "palette": 2
+      }]
+    };
+    zingchart.render({
+      id: 'myChart',
+      data: myConfig,
+      height: '100%',
+      width: '100%',
+    });
+  </script>
+  <a class="btn" href="index">
+    <button>
+      REFRESH
+    </button>
+  </a>
+</body>
+{% endblock content %}
+

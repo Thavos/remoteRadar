@@ -34,11 +34,11 @@ void setup() {
       Serial.begin(9600);
   //Wifi
        delay(5000);
-      const char* ssid = ""; //SSID of WiFi router
-      const char* password = ""; //PASS for router
+      const char* ssid = "GL"; //SSID of WiFi router
+      const char* password = "gl"; //PASS for router
       WiFi.begin(ssid, password); //Connect to wifi
       while (WiFi.status() != WL_CONNECTED) {
-              delay(500);
+              delay(1000);
               Serial.println("Awaiting connection"); //As long as not connected
       }
       Serial.println("");
@@ -67,9 +67,14 @@ void loop(){
     measure2();
     mprint();
     jsonvoid();
+<<<<<<< HEAD
     delay(500);
     //Serial.println(WiFi.localIP()); //Print the IP address
     //Serial.println();
+=======
+    delay(100);
+    Serial.println(WiFi.localIP()); //Print the IP address
+>>>>>>> 82ace11842712019039b9e07a20adec426dff427
   }
   ledvoid();
 }
@@ -199,8 +204,13 @@ void jsonvoid(){
   String payload = http.getString(); //Get the response payload
 
   /*Serial.println(httpCode); //Print HTTP return code
+<<<<<<< HEAD
   Serial.println(payload); //Print request response payload*/
   Serial.println(JSONmessageBuffer);
+=======
+  Serial.println(payload); //Print request response payload
+  Serial.println(JSONmessageBuffer);*/
+>>>>>>> 82ace11842712019039b9e07a20adec426dff427
   http.end(); //Close connection
   //mnumber++;
 }
